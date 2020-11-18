@@ -21,6 +21,11 @@ namespace HostingServiceDB.Controllers
             _titleStationDb = titleStationDb;
         }
 
+        [HttpGet, ActionName("Get")]
+        public JsonResult Get()
+        {
+            return new JsonResult($"It's work! [{DateTime.Now}]");
+        }
 
         [HttpGet("{number}"), ActionName("Get")]
         public async Task<IEnumerable<TitleStationJsonModel>> GetTitleStationAsync(int number)

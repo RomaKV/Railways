@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RabbitMQ;
 
 namespace ServiceRailwayApi
 {
@@ -33,8 +34,10 @@ namespace ServiceRailwayApi
                     services.AddSingleton<IUpdateRwyDb>(x =>
                         new UpdateRwyDbClient(configuration.GetSection("ConnectionServiceDb").Value));
 
+                    services.AddRabbitMq(configuration);
 
                     services.AddHostedService<Worker>();
+
 
 
 

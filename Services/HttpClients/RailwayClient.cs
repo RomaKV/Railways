@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace HttpClients
 {
-    public class RailwayClient : BaseClient, IRailwayInfo
+    public class RailwayClient : BaseClient,  IRailwayInfo
     {
         
         public RailwayClient(string baseAddress) : base(baseAddress)

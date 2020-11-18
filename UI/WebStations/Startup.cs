@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HttpClients;
 using HttpClients.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RabbitMQ;
 
 namespace WebStations
 {
@@ -25,21 +21,18 @@ namespace WebStations
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddSingleton<ITitleStationDb>(x =>
                 new TitleStationClient(Configuration.GetSection("ConnectionServiceDb").Value));
 
             services.AddControllersWithViews();
 
             services.AddSession();
-           
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.InstanceName = " RedisCache";
-                options.Configuration = "127.0.0.1:6379";
-               
-            });
 
+
+            services.AddStackExchangeRedisCache(options => { Configuration.GetSection("RedisCache").Bind(options); });
+
+
+            services.AddRabbitMq(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,8 +51,8 @@ namespace WebStations
 
             app.UseSession();
 
-
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -69,8 +62,8 @@ namespace WebStations
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

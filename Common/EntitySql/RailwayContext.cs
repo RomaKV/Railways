@@ -7,26 +7,26 @@ namespace EntitySql
 {
     public class RailwayContext : DbContext
     {
+        private static DbContextOptions<RailwayContext> optionsSql;
 
-        public RailwayContext()
+        public RailwayContext():base(optionsSql)
         {
+           
             Database.EnsureCreated();
-
+          
         }
 
 
         public RailwayContext(DbContextOptions<RailwayContext> options)
                 : base(options)
         {
+            optionsSql = options;
             Database.EnsureCreated();
-
+           
         }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Initial Catalog=Railway;Trusted_Connection=True;Connection Timeout=30;");
-        }
+        
 
 
 
@@ -47,7 +47,7 @@ namespace EntitySql
 
             modelBuilder.Entity<Station>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Code).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Railway)
                     .WithMany(p => p.Stations)
@@ -56,14 +56,8 @@ namespace EntitySql
 
             });
 
-
-
-
-
-
             base.OnModelCreating(modelBuilder);
             
-
         }
     }
 }

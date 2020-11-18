@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace HttpClients.Interfaces
 {
-   public interface IStationInfo
-   {
-        
-       Task<ListStationsJsonModel> GetAllAsync();
+    public interface IStationInfo
+    {
 
-       Task<ListStationsDateJsonModel> GetAllgetDateAsync(DateTime dateCreate, DateTime dateUpdate);
+        Task<ListStationsJsonModel> GetAllAsync();
+
+        Task<ListStationsDateJsonModel> GetAllgetDateAsync(DateTime dateCreate, DateTime dateUpdate);
     }
 }

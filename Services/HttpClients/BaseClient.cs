@@ -16,7 +16,8 @@ namespace HttpClients
 
             Client = new HttpClient
             {
-                BaseAddress = new Uri(baseAddress)
+                BaseAddress = new Uri(baseAddress),
+                
             };
 
             Client.DefaultRequestHeaders.Accept.Clear();
